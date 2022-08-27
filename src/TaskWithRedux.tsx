@@ -2,36 +2,42 @@ import React, {ChangeEvent, memo} from "react";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "./Todolist";
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {ThunkDispatch} from "redux-thunk";
+import {AppRootStateType} from "./state/store";
+import {AnyAction} from "redux";
 
 type TaskPropsType = {
     task: TaskType
     todolistID: string
 }
 export const TaskWithRedux = memo(({
-                              task,
-                              todolistID
-                          }: TaskPropsType) => {
+                                       task,
+                                       todolistID
+                                   }: TaskPropsType) => {
 
-    const dispatch=useDispatch()
+    const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
 
-    const onClickHandler = () => dispatch(removeTaskAC(task.id,todolistID))
+    const onClickHandler = () => {
+        dispatch(removeTaskTC(todolistID, task.id))
+    }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        dispatch(changeTaskStatusAC(task.id,newIsDoneValue,todolistID))
+        let status = newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New
+        dispatch(updateTaskTC(todolistID, task.id, {status}))
     }
     const onTitleChangeHandler = (newValue: string) => {
-        dispatch(changeTaskTitleAC(task.id,newValue,todolistID))
+        dispatch(updateTaskTC(todolistID, task.id, {title: newValue}))
     }
 
     console.log('task render')
 
     return (
-        <div key={task.id} className={task.isDone ? "is-done" : ""}>
+        <div key={task.id} className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
             <Checkbox
-                checked={task.isDone}
+                checked={task.status === TaskStatuses.Completed}
                 color="primary"
                 onChange={onChangeHandler}
             />

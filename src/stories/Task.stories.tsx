@@ -1,9 +1,8 @@
-import React, {ChangeEvent, useState} from 'react';
-import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {AddItemForm} from "../AddItemForm";
+import React, {useState} from 'react';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task} from "../Task";
-import {TaskType} from "../Todolist";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 export default {
     title: 'TODOLIST/TaskStory',
@@ -17,13 +16,16 @@ export default {
 } as ComponentMeta<typeof Task>;
 
 const Template: ComponentStory<typeof Task> = (args) =>{
-  const [task,setTask]=useState({id: 'ewe', title: 'HTML', isDone: true})
+  const [task,setTask]=useState({id: 'ewe', title: 'HTML', status: TaskStatuses.New,
+      todoListId: "todolistId2", description: '',
+      startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low})
 
-    const changeTaskStatus=()=>setTask({id: 'ewe', title: 'HTML', isDone: !task.isDone})
-    const changeTaskTitle=(id:string,title:string)=>setTask({id: id, title:title, isDone: task.isDone})
+    // const changeTaskStatus=()=>setTask({id: 'ewe', title: 'HTML', status: TaskStatuses.Completed})
+    // const changeTaskTitle=(id:string,title:string)=>setTask({id: id, title:title, isDone: task.isDone})
 
     return(
-        <Task task={task} removeTask={action('changeRemoveTask')} changeTaskStatus={changeTaskStatus} changeTaskTitle={changeTaskTitle}/>
+        <div></div>
+        // <Task task={task} removeTask={action('changeRemoveTask')} changeTaskStatus={changeTaskStatus} changeTaskTitle={changeTaskTitle}/>
     )
 }
 export const TaskStory = Template.bind({});
