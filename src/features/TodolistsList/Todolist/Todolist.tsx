@@ -1,16 +1,16 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {AddItemForm} from './AddItemForm';
-import {EditableSpan} from './EditableSpan';
+import {AddItemForm} from '../../../components/AddItemForm/AddItemForm';
+import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {TaskWithRedux} from "./TaskWithRedux";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {fetchTodolistsTC, FilterValuesType} from "./state/todolists-reducer";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {fetchTodolistsTC, FilterValuesType} from "../todolists-reducer";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "../../../app/store";
 import {AnyAction} from "redux";
-import {fetchTaskTC} from "./state/tasks-reducer";
+import {fetchTaskTC} from "../tasks-reducer";
 
 
 type PropsType = {
@@ -80,7 +80,7 @@ export const Todolist = memo(({
                 {
                     tasksForTodolist.map(t => {
 
-                        return <TaskWithRedux key={t.id} task={t} todolistID={id}/>
+                        return <Task key={t.id} task={t} todolistID={id}/>
                     })
                 }
             </div>

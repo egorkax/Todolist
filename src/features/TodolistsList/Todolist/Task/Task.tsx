@@ -1,19 +1,19 @@
 import React, {ChangeEvent, memo} from "react";
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {useDispatch} from "react-redux";
-import {removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {removeTaskTC, updateTaskTC} from "../../tasks-reducer";
+import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
 import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "../../../../app/store";
 import {AnyAction} from "redux";
 
 type TaskPropsType = {
     task: TaskType
     todolistID: string
 }
-export const TaskWithRedux = memo(({
+export const Task = memo(({
                                        task,
                                        todolistID
                                    }: TaskPropsType) => {
