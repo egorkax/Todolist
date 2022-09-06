@@ -16,13 +16,13 @@ beforeEach(() => {
     todolistId1 = v1();
     todolistId2 = v1();
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", order: 0, addedDate: '',entityStatus:'idle'},
-        {id: todolistId2, title: "What to buy", filter: "all", order: 0, addedDate: '',entityStatus:'idle'}
+        {id: todolistId1, title: "What to learn", filter: "all", order: 0, addedDate: '', entityStatus: 'idle'},
+        {id: todolistId2, title: "What to buy", filter: "all", order: 0, addedDate: '', entityStatus: 'idle'}
     ]
 })
 
 test('correct todolist should be removed', () => {
-    const endState = todolistsReducer(startState, removeTodolistAC(todolistId1))
+    const endState = todolistsReducer(startState, removeTodolistAC({todolistId: todolistId1}))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -32,10 +32,12 @@ test('correct todolist should be added', () => {
     let newTodolistTitle = "New Todolist";
 
     const endState = todolistsReducer(startState, addTodolistAC({
-        id: 'todolistId1',
-        title: newTodolistTitle,
-        addedDate: '',
-        order: 0
+        todolist: {
+            id: 'todolistId1',
+            title: newTodolistTitle,
+            addedDate: '',
+            order: 0
+        }
     }))
 
     expect(endState.length).toBe(3);
@@ -46,7 +48,7 @@ test('correct todolist should be added', () => {
 test('correct todolist should change its name', () => {
     let newTodolistTitle = "New Todolist";
 
-    const action = changeTodolistTitleAC(todolistId2, newTodolistTitle);
+    const action = changeTodolistTitleAC({id: todolistId2, title: newTodolistTitle});
 
     const endState = todolistsReducer(startState, action);
 
@@ -57,7 +59,7 @@ test('correct todolist should change its name', () => {
 test('correct filter of todolist should be changed', () => {
     let newFilter: FilterValuesType = "completed";
 
-    const action = changeTodolistFilterAC(todolistId2, newFilter);
+    const action = changeTodolistFilterAC({id: todolistId2, filter: newFilter});
 
     const endState = todolistsReducer(startState, action);
 
@@ -68,7 +70,7 @@ test('correct filter of todolist should be changed', () => {
 test(' todolist should be set to the state', () => {
 
 
-    const action = setTodolistAC(startState);
+    const action = setTodolistAC({todolists: startState});
 
     const endState = todolistsReducer([], action);
 

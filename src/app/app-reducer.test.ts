@@ -5,13 +5,13 @@ beforeEach(() => {
     startState = {
         error: null,
         status: "idle",
-        isInitialized:true
+        isInitialized: true
     };
 });
 
 test('correct error should be set', () => {
 
-    const endState = appReducer(startState, setAppErrorAC('new error'))
+    const endState = appReducer(startState, setAppErrorAC({error: 'new error'}))
 
     expect(endState.error).toBe('new error');
     expect(startState.error).toBe(null);
@@ -20,7 +20,7 @@ test('correct error should be set', () => {
 
 test('correct status should be set', () => {
 
-    const endState = appReducer(startState, setAppStatusAC('succeeded'))
+    const endState = appReducer(startState, setAppStatusAC({status: 'succeeded'}))
 
     expect(endState.status).toBe('succeeded');
     expect(startState.status).toBe('idle');
