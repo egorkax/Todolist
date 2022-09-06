@@ -1,6 +1,7 @@
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
+import {handleServerNetworkError} from "../../utils/error-utils";
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -10,7 +11,7 @@ const initialState: Array<TodolistDomainType> = []
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
-            return state.filter(tl => tl.id != action.id)
+            return state.filter(tl => tl.id !== action.id)
         case 'ADD-TODOLIST':
             return [{...action.todolist, filter: "all", entityStatus: 'idle'}, ...state]
         case 'CHANGE-TODOLIST-TITLE':
@@ -56,6 +57,9 @@ export const fetchTodolistsTC = () => {
                 dispatch(setAppStatusAC('succeeded'))
 
             })
+            .catch(e => {
+                handleServerNetworkError(e, dispatch)
+            })
     }
 }
 
@@ -81,7 +85,7 @@ export const addTodolistTC = (title: string) => (dispatch: ThunkDispatch) => {
 
 export const updateTitleTodolistTC = (todolistId: string, title: string) => (dispatch: ThunkDispatch) => {
     todolistsAPI.updateTitleTodolist(todolistId, title)
-        .then(res => {
+        .then(() => {
             dispatch(changeTodolistTitleAC(todolistId, title))
         })
 }

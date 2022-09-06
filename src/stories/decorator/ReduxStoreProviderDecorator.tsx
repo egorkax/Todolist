@@ -1,17 +1,19 @@
 import {Provider} from "react-redux";
 import React from "react";
-import {combineReducers, createStore, legacy_createStore} from 'redux'
+import {combineReducers, legacy_createStore} from 'redux'
 import {tasksReducer} from '../../features/TodolistsList/tasks-reducer'
 import {todolistsReducer} from '../../features/TodolistsList/todolists-reducer'
 import {v1} from 'uuid'
 import {AppRootStateType} from '../../app/store'
 import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 import {appReducer} from "../../app/app-reducer";
+import {authReducer} from "../../features/Login/auth-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app:appReducer
+    app:appReducer,
+    auth:authReducer
 })
 
 const initialGlobalState: AppRootStateType = {
@@ -47,7 +49,11 @@ const initialGlobalState: AppRootStateType = {
     },
     app: {
         status: "idle",
-        error: null
+        error: null,
+        isInitialized:true
+    },
+    auth:{
+        isLoggedIn:true
     }
 };
 

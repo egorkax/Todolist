@@ -6,12 +6,11 @@ import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../app/store";
 import {AnyAction} from "redux";
 import {fetchTaskTC} from "../tasks-reducer";
-import {RequestStatusType} from "../../../app/app-reducer";
 
 
 type PropsType = {
