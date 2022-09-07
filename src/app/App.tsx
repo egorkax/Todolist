@@ -18,7 +18,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, Routes} from "react-router-dom";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {logOutTC} from "../features/Login/auth-reducer";
@@ -49,7 +49,7 @@ export function App() {
         dispatch(logOutTC())
     }
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
@@ -71,7 +71,7 @@ export function App() {
                     </Routes>
                 </Container>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
