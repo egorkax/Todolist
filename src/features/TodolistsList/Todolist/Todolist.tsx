@@ -16,7 +16,6 @@ import {fetchTaskTC} from "../tasks-reducer";
 type PropsType = {
     todolist: TodolistDomainType
     tasks: Array<TaskType>
-    removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     removeTodolist: (id: string) => void

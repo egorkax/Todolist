@@ -14,6 +14,7 @@ import {Navigate} from "react-router-dom";
 import {loginTC} from "./auth-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
+import {action} from "@storybook/addon-actions";
 
 export const Login = () => {
 
@@ -50,8 +51,19 @@ export const Login = () => {
             return errors
 
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: async (values, formikHelpers) => {
+            const res = await dispatch(loginTC(values))
+            if (loginTC.rejected.match(res)) {
+                debugger
+                // @ts-ignore
+                if (res.payload?.fieldsErrors?.length) {
+                    // @ts-ignore
+                    const error = res.payload?.fieldsErrors[0]
+                    debugger
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
+
         },
 
     })

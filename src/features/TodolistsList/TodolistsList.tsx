@@ -12,7 +12,7 @@ import {
 } from "./todolists-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {addTaskTC, removeTaskAC} from "./tasks-reducer";
+import {addTaskTC,} from "./tasks-reducer";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
@@ -33,10 +33,7 @@ export const TodolistsList: React.FC = () => {
         dispatch(fetchTodolistsTC())
     }, [])
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        const action = removeTaskAC({taskId: id, todolistId: todolistId});
-        dispatch(action);
-    }, [dispatch])
+
 
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskTC(todolistId, title))
@@ -77,7 +74,6 @@ export const TodolistsList: React.FC = () => {
                                 <Todolist
                                     todolist={tl}
                                     tasks={tasks[tl.id]}
-                                    removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={addTask}
                                     removeTodolist={removeTodolist}

@@ -14,14 +14,14 @@ type TaskPropsType = {
     todolistID: string
 }
 export const Task = memo(({
-                                       task,
-                                       todolistID
-                                   }: TaskPropsType) => {
+                              task,
+                              todolistID
+                          }: TaskPropsType) => {
 
     const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
 
     const onClickHandler = () => {
-        dispatch(removeTaskTC(todolistID, task.id))
+        dispatch(removeTaskTC({todolistId: todolistID, taskId: task.id}))
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
