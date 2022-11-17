@@ -31,12 +31,12 @@ export const TodolistsList: React.FC = () => {
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(fetchTodolistsTC())
+
     }, [])
 
 
-
     const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(addTaskTC(todolistId, title))
+        dispatch(addTaskTC({todolistId, title}))
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
@@ -49,8 +49,7 @@ export const TodolistsList: React.FC = () => {
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-
-        dispatch(updateTitleTodolistTC(id, title));
+        dispatch(updateTitleTodolistTC({todolistId: id, title}));
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {

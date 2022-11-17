@@ -33,10 +33,13 @@ export const Todolist = memo(({
 
 
         const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
-
+        let t = tasks
+        debugger
+        console.log(tasks, todolist)
 
         useEffect(() => {
             dispatch(fetchTaskTC(todolist.id))
+            debugger
         }, [])
 
         const addTask1 = useCallback((title: string) => {
@@ -55,6 +58,8 @@ export const Todolist = memo(({
         const onCompletedClickHandler = () => changeFilter("completed", todolist.id);
 
         let tasksForTodolist = tasks;
+
+
         if (todolist.filter === "active") {
             tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.New);
         }

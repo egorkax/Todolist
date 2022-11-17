@@ -26,10 +26,10 @@ export const Task = memo(({
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
         let status = newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New
-        dispatch(updateTaskTC(todolistID, task.id, {status}))
+        dispatch(updateTaskTC({todolistId: todolistID, taskId: task.id, model: {status}}))
     }
     const onTitleChangeHandler = (newValue: string) => {
-        dispatch(updateTaskTC(todolistID, task.id, {title: newValue}))
+        dispatch(updateTaskTC({todolistId: todolistID, taskId: task.id, model: {title: newValue}}))
     }
 
     console.log('task render')

@@ -39,6 +39,7 @@ export function App() {
     const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
 
     useEffect(() => {
+
         dispatch(initializeAppTC())
     }, [dispatch])
 
