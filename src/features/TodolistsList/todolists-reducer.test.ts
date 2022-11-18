@@ -1,12 +1,12 @@
 import {
-    addTodolistTC,
     changeTodolistFilterAC,
-    fetchTodolistsTC, FilterValuesType, removeTodolistTC,
+    FilterValuesType,
     TodolistDomainType,
-    todolistsReducer, updateTitleTodolistTC
+    todolistsReducer,
 } from './todolists-reducer';
 import {v1} from 'uuid';
 import {TodolistType} from "../../api/todolists-api";
+import {addTodolistTC, fetchTodolistsTC, removeTodolistTC, updateTitleTodolistTC} from "./todolist-actions";
 
 
 let todolistId1: string;

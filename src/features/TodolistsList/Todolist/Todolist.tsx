@@ -5,54 +5,38 @@ import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
-import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "../../../app/store";
-import {AnyAction} from "redux";
-import {fetchTaskTC} from "../tasks-reducer";
+import {TodolistDomainType} from "../todolists-reducer";
+import {useAction} from "../../../app/store";
+import {tasksAction, todolistAction} from "../index";
 
 
 type PropsType = {
     todolist: TodolistDomainType
     tasks: Array<TaskType>
-    changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string, todolistId: string) => void
-    removeTodolist: (id: string) => void
-    changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
-export const Todolist = memo(({
-                                  todolist,
-                                  tasks,
-                                  changeFilter,
-                                  addTask,
-                                  removeTodolist,
-                                  changeTodolistTitle,
-                              }: PropsType) => {
-
-
-        const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
+export const Todolist = memo(({todolist, tasks,}: PropsType) => {
+        const {fetchTaskTC, addTaskTC} = useAction(tasksAction)
+        const {removeTodolistTC, updateTitleTodolistTC, changeTodolistFilterAC} = useAction(todolistAction)
 
         useEffect(() => {
-            dispatch(fetchTaskTC(todolist.id))
-            debugger
+            fetchTaskTC(todolist.id)
         }, [])
 
         const addTask1 = useCallback((title: string) => {
-            addTask(title, todolist.id);
-        }, [todolist.id, addTask])
+            addTaskTC({title: title, todolistId: todolist.id});
+        }, [todolist.id])
 
-        const removeTodolist1 = () => {
-            removeTodolist(todolist.id);
+        const removeTodolist = () => {
+            removeTodolistTC(todolist.id);
         }
-        const changeTodolistTitle1 = (title: string) => {
-            changeTodolistTitle(todolist.id, title);
+        const changeTodolistTitle = (title: string) => {
+            updateTitleTodolistTC({todolistId: todolist.id, title: title});
         }
 
-        const onAllClickHandler = () => changeFilter("all", todolist.id);
-        const onActiveClickHandler = () => changeFilter("active", todolist.id);
-        const onCompletedClickHandler = () => changeFilter("completed", todolist.id);
+        const onAllClickHandler = () => changeTodolistFilterAC({filter: "all", id: todolist.id});
+        const onActiveClickHandler = () => changeTodolistFilterAC({filter: "active", id: todolist.id});
+        const onCompletedClickHandler = () => changeTodolistFilterAC({filter: "completed", id: todolist.id});
 
         let tasksForTodolist = tasks;
 
@@ -66,8 +50,8 @@ export const Todolist = memo(({
 
 
         return <div>
-            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle1}/>
-                <IconButton onClick={removeTodolist1} disabled={todolist.entityStatus === 'loading'}>
+            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle}/>
+                <IconButton onClick={removeTodolist} disabled={todolist.entityStatus === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>

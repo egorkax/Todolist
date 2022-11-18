@@ -2,12 +2,9 @@ import React, {ChangeEvent, memo} from "react";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {useDispatch} from "react-redux";
-import {removeTaskTC, updateTaskTC} from "../../tasks-reducer";
 import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
-import {ThunkDispatch} from "redux-thunk";
-import {AppRootStateType} from "../../../../app/store";
-import {AnyAction} from "redux";
+import {useAction} from "../../../../app/store";
+import {tasksAction} from "../../index";
 
 type TaskPropsType = {
     task: TaskType
@@ -18,18 +15,18 @@ export const Task = memo(({
                               todolistID
                           }: TaskPropsType) => {
 
-    const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
+    const {removeTaskTC, updateTaskTC} = useAction(tasksAction)
 
     const onClickHandler = () => {
-        dispatch(removeTaskTC({todolistId: todolistID, taskId: task.id}))
+        removeTaskTC({todolistId: todolistID, taskId: task.id})
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
         let status = newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New
-        dispatch(updateTaskTC({todolistId: todolistID, taskId: task.id, model: {status}}))
+        updateTaskTC({todolistId: todolistID, taskId: task.id, model: {status}})
     }
     const onTitleChangeHandler = (newValue: string) => {
-        dispatch(updateTaskTC({todolistId: todolistID, taskId: task.id, model: {title: newValue}}))
+        updateTaskTC({todolistId: todolistID, taskId: task.id, model: {title: newValue}})
     }
 
     console.log('task render')
