@@ -16,14 +16,16 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializeAppTC, RequestStatusType} from "./app-reducer";
+import {initializeAppTC} from "./app-reducer";
 import {Login} from "../features/Login/Login";
-import {BrowserRouter, HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import {ThunkDispatch} from "redux-thunk";
 
 
 import {AnyAction} from "redux";
 import {logOutTC} from "../features/Login/auth-reducer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {authSelectors} from "../features/Login";
 
 
 export type TasksStateType = {
@@ -32,9 +34,9 @@ export type TasksStateType = {
 
 
 export function App() {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+    const status = useSelector(selectStatus)
+    const isInitialized = useSelector(selectIsInitialized)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
 
     const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
 

@@ -33,9 +33,6 @@ export const Todolist = memo(({
 
 
         const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
-        let t = tasks
-        debugger
-        console.log(tasks, todolist)
 
         useEffect(() => {
             dispatch(fetchTaskTC(todolist.id))

@@ -14,12 +14,12 @@ import {Navigate} from "react-router-dom";
 import {loginTC} from "./auth-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {action} from "@storybook/addon-actions";
+import {selectIsLoggedIn} from "./selectors";
 
 export const Login = () => {
 
     const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
-    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
 
     type FormikErrorType = {
         email?: string
