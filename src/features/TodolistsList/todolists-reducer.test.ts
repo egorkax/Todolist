@@ -6,7 +6,7 @@ import {
 } from './todolists-reducer';
 import {v1} from 'uuid';
 import {TodolistType} from "../../api/todolists-api";
-import {addTodolistTC, fetchTodolistsTC, removeTodolistTC, updateTitleTodolistTC} from "./todolist-actions";
+import {addTodolistTC, fetchTodolistsTC, removeTodolistTC, updateTitleTodolistTC} from "./todolists-reducer";
 
 
 let todolistId1: string;
