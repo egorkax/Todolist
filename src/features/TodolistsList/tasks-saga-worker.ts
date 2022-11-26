@@ -1,4 +1,4 @@
-import {call, put} from "redux-saga/effects";
+import {call, put, takeEvery} from "redux-saga/effects";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {AxiosResponse} from "axios";
 import {ResponseTasksType, ResponseType, TaskType, todolistsAPI, UpdateTaskModelType} from "../../api/todolists-api";
@@ -96,6 +96,13 @@ export const updateTask = (todolistId: string, taskId: string, model: UpdateDoma
     model,
     state
 })
+
+export function* tasksSagaWatcher(){
+    yield takeEvery('TASK/FETCH-TASKS', fetchTasksWorkerSaga)
+    yield takeEvery('TASK/REMOVE-TASK', removeTaskWorkerSaga)
+    yield takeEvery('TASK/ADD-TASK', addTaskSagaWorker)
+    yield takeEvery('TASK/UPDATE-TASK', updateTaskSagaWorker)
+}
 // thunks
 export const __fetchTaskTC = (todolistId: string) => {
     return (dispatch: TasksThunkDispatch) => {

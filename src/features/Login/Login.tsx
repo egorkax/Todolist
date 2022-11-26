@@ -11,9 +11,9 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
-import {loginTC} from "./auth-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
+import {logIn} from "./auth-saga-worker";
 
 export const Login = () => {
 
@@ -51,7 +51,7 @@ export const Login = () => {
 
         },
         onSubmit: values => {
-            dispatch(loginTC(values))
+            dispatch(logIn(values))
         },
 
     })

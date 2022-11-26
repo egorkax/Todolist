@@ -16,12 +16,13 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializeApp, RequestStatusType} from "./app-reducer";
+import {RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {logOutTC} from "../features/Login/auth-reducer";
+import {logOut} from "../features/Login/auth-saga-worker";
+import {initializeApp} from "./initialize-saga-worker";
 
 
 export type TasksStateType = {
@@ -45,8 +46,8 @@ export function App() {
             <CircularProgress/>
         </div>
     }
-    const logOut = () => {
-        dispatch(logOutTC())
+    const logOutApp = () => {
+        dispatch(logOut())
     }
     return (
         <BrowserRouter>
@@ -60,7 +61,7 @@ export function App() {
                         <Typography variant="h6">
                             News
                         </Typography>
-                        {isLoggedIn && <Button onClick={logOut} color="inherit">LogOut</Button>}
+                        {isLoggedIn && <Button onClick={logOutApp} color="inherit">LogOut</Button>}
                     </Toolbar>
                     {status === 'loading' && <LinearProgress color="secondary"/>}
                 </AppBar>

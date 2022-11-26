@@ -1,7 +1,6 @@
-import {todolistsAPI, TodolistType} from "../../api/todolists-api";
+import {TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
-import {handleServerNetworkError} from "../../utils/error-utils";
+import {RequestStatusType, SetAppErrorActionType, SetAppStatusActionType} from "../../app/app-reducer";
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -47,49 +46,6 @@ export const changeTodolistStatusAC = (todolistId: string, status: RequestStatus
     ({type: 'CHANGE-TODOLIST-STATUS', todolistId, status} as const)
 
 
-// thunks
-export const fetchTodolistsTC = () => {
-    return (dispatch: ThunkDispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        todolistsAPI.getTodolists()
-            .then(res => {
-                dispatch(setTodolistAC(res.data))
-                dispatch(setAppStatusAC('succeeded'))
-
-            })
-            .catch(e => {
-                handleServerNetworkError(e, dispatch)
-            })
-    }
-}
-
-export const removeTodolistTC = (todolistId: string) => (dispatch: ThunkDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    dispatch(changeTodolistStatusAC(todolistId, 'loading'))
-    todolistsAPI.deleteTodolist(todolistId)
-        .then(() => {
-            dispatch(removeTodolistAC(todolistId))
-            dispatch(setAppStatusAC('succeeded'))
-
-        })
-}
-
-export const addTodolistTC = (title: string) => (dispatch: ThunkDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    todolistsAPI.createTodolist(title)
-        .then((res) => {
-            dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setAppStatusAC('succeeded'))
-        })
-}
-
-export const updateTitleTodolistTC = (todolistId: string, title: string) => (dispatch: ThunkDispatch) => {
-    todolistsAPI.updateTitleTodolist(todolistId, title)
-        .then(() => {
-            dispatch(changeTodolistTitleAC(todolistId, title))
-        })
-}
-
 // types
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
@@ -109,4 +65,4 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 }
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
+export type TodolistThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>

@@ -5,34 +5,23 @@ import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
+import {changeTodolistFilterAC, TodolistDomainType} from "../todolists-reducer";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../app/store";
 import {AnyAction} from "redux";
 import {addTask, fetchTasks} from "../tasks-saga-worker";
+import {removeTodolist, updateTodolist} from "../todolists-saga-worker";
 
 
 type PropsType = {
     todolist: TodolistDomainType
     tasks: Array<TaskType>
-    removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: (value: FilterValuesType, todolistId: string) => void
-    removeTodolist: (id: string) => void
-    changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
-export const Todolist = memo(({
-                                  todolist,
-                                  tasks,
-                                  changeFilter,
-                                  removeTodolist,
-                                  changeTodolistTitle,
-                              }: PropsType) => {
-
+export const Todolist = memo(({todolist, tasks,}: PropsType) => {
 
         const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
-
 
         useEffect(() => {
             dispatch(fetchTasks(todolist.id))
@@ -43,15 +32,16 @@ export const Todolist = memo(({
         }, [todolist.id])
 
         const removeTodolist1 = () => {
-            removeTodolist(todolist.id);
+            dispatch(removeTodolist(todolist.id));
         }
         const changeTodolistTitle1 = (title: string) => {
-            changeTodolistTitle(todolist.id, title);
+            dispatch(updateTodolist(todolist.id, title))
         }
 
-        const onAllClickHandler = () => changeFilter("all", todolist.id);
-        const onActiveClickHandler = () => changeFilter("active", todolist.id);
-        const onCompletedClickHandler = () => changeFilter("completed", todolist.id);
+        const onAllClickHandler = () => dispatch(changeTodolistFilterAC(todolist.id, "all"));
+        const onActiveClickHandler = () => dispatch(changeTodolistFilterAC(todolist.id, "active"));
+        const onCompletedClickHandler = () => dispatch(changeTodolistFilterAC(todolist.id, "completed"));
+
 
         let tasksForTodolist = tasks;
         if (todolist.filter === "active") {

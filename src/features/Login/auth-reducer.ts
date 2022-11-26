@@ -1,7 +1,5 @@
-import {authAPI, LoginParamsType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {SetAppErrorActionType, SetAppStatusActionType} from "../../app/app-reducer";
 
 const initialState = {
     isLoggedIn: false
@@ -23,40 +21,6 @@ export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 
-
-// thunks
-export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
-    dispatch(setAppStatusAC("loading"))
-    authAPI.logIn(data)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
-                dispatch(setAppStatusAC('succeeded'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((e) => {
-            handleServerNetworkError(e, dispatch)
-        })
-}
-
-export const logOutTC = () => (dispatch: ThunkDispatch) => {
-    dispatch(setAppStatusAC("loading"))
-    authAPI.logOut()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(false))
-                dispatch(setAppStatusAC('succeeded'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((e) => {
-            handleServerNetworkError(e, dispatch)
-        })
-}
-
 export type InitialStateType = {
     isLoggedIn: boolean
 }
@@ -67,4 +31,4 @@ type ActionsType =
     | SetIsLoggedInActionType
 
 
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
+export  type AuthThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
