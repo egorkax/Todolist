@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 
 const instance = axios.create({
@@ -11,10 +11,10 @@ const instance = axios.create({
 
 // api
 export const todolistsAPI = {
-    getTodolists() {
+    getTodolists():Promise<AxiosResponse<TodolistType[]>> {
         return instance.get<Array<TodolistType>>('todo-lists')
     },
-    createTodolist(title: string) {
+    createTodolist(title: string):Promise<AxiosResponse<ResponseType<{ item: TodolistType }>>> {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title})
     },
     deleteTodolist(todolistID: string) {
@@ -23,16 +23,16 @@ export const todolistsAPI = {
     updateTitleTodolist(todolistID: string, newTitle: string) {
         return instance.put<ResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
     },
-    getTasks(todolistID: string) {
+    getTasks(todolistID: string):Promise<AxiosResponse<ResponseTasksType>> {
         return instance.get<ResponseTasksType>(`todo-lists/${todolistID}/tasks`)
     },
-    createTask(todolistID: string, newTitle: string) {
+    createTask(todolistID: string, newTitle: string):Promise<AxiosResponse<ResponseType<{ item: TaskType }>>> {
         return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, {title: newTitle})
     },
-    deleteTask(todolistID: string, taskID: string) {
+    deleteTask(todolistID: string, taskID: string):Promise<AxiosResponse<ResponseType>> {
         return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
     },
-    updateTask(todolistID: string, taskID: string, model: UpdateTaskModelType) {
+    updateTask(todolistID: string, taskID: string, model: UpdateTaskModelType):Promise<AxiosResponse<ResponseType>> {
         return instance.put<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`, model)
     },
 }

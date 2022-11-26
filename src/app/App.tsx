@@ -16,7 +16,7 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializeAppTC, RequestStatusType} from "./app-reducer";
+import {initializeApp, RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ThunkDispatch} from "redux-thunk";
@@ -37,7 +37,7 @@ export function App() {
     const dispatch = useDispatch<ThunkDispatch<AppRootStateType, void, AnyAction>>()
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        dispatch(initializeApp())
     }, [dispatch])
 
     if (!isInitialized) {

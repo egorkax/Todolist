@@ -10,7 +10,7 @@ import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../app/store";
 import {AnyAction} from "redux";
-import {fetchTaskTC} from "../tasks-reducer";
+import {addTask, fetchTasks} from "../tasks-saga-worker";
 
 
 type PropsType = {
@@ -18,7 +18,6 @@ type PropsType = {
     tasks: Array<TaskType>
     removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
 }
@@ -27,7 +26,6 @@ export const Todolist = memo(({
                                   todolist,
                                   tasks,
                                   changeFilter,
-                                  addTask,
                                   removeTodolist,
                                   changeTodolistTitle,
                               }: PropsType) => {
@@ -37,12 +35,12 @@ export const Todolist = memo(({
 
 
         useEffect(() => {
-            dispatch(fetchTaskTC(todolist.id))
+            dispatch(fetchTasks(todolist.id))
         }, [])
 
         const addTask1 = useCallback((title: string) => {
-            addTask(title, todolist.id);
-        }, [todolist.id, addTask])
+            dispatch(addTask(todolist.id, title));
+        }, [todolist.id])
 
         const removeTodolist1 = () => {
             removeTodolist(todolist.id);
